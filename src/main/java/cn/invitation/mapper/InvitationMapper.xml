@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.invitation.mapper.InvitationMapper">
+
+    <select id="findPageByCondition" parameterType="string" resultType="Invitation">
+       SELECT id,title,summary,author,createdate FROM invitation
+       <where>
+           <if test="titlee!=null and titlee!=''">
+             AND  title LIKE CONCAT ('%',#{titlee},'%')
+           </if>
+       </where>
+        ORDER BY createdate  DESC
+    </select>
+
+    <insert id="addMessage" parameterType="ReplyDetail">
+        INSERT INTO reply_detail(invid,content,author,createdate)
+        VALUES(#{invid},#{content},#{author},#{createdate})
+    </insert>
+
+    <select id="findAll" parameterType="int" resultType="ReplyDetail">
+        SELECT id,invid,content,author,createdate FROM reply_detail WHERE invid=#{id}
+    </select>
+
+    <delete id="del" parameterType="int">
+        DELETE FROM invitation WHERE id=#{xxx}
+    </delete>
+
+    <delete id="delDetail" parameterType="int">
+         DELETE FROM reply_detail WHERE invid=#{xxx}
+    </delete>
+</mapper>
